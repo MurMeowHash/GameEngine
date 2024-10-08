@@ -8,7 +8,6 @@ void terminate();
 
 int main() {
     initialize();
-
     auto currentGame = new Game{true, "Drone Simulator"};
     Managers::getGameManager()->setCurrentGame(currentGame);
     currentGame->create();

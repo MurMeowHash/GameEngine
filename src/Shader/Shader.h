@@ -5,11 +5,9 @@
 #include <glm/glm.hpp>
 #include <functional>
 #include "../utils/utils.h"
+#include "../Dispose/IDisposable.h"
 
-class ShaderHash;
-
-class Shader {
-    friend ShaderHash;
+class Shader : public IDisposable {
 private:
     static constexpr GLint INVALID_LOCATION{-1};
     GLuint id;
@@ -25,4 +23,5 @@ public:
     void setMat3(const char *name, const glm::mat3 &value) const;
     void setMat4(const char *name, const glm::mat4 &value) const;
     void setVec3(const char *name, const glm::vec3 &value) const;
+    void dispose() override;
 };

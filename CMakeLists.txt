@@ -36,8 +36,24 @@ add_executable(Drone_Game
         src/Game/Time.h
         src/Shader/Shader.cpp
         src/Shader/Shader.h
-        src/Shader/ShaderHash.cpp
-        src/Shader/ShaderHash.h
+        src/Shader/ShaderType.h
+        src/Dispose/IDisposable.h
+        src/Game/Input/Input.cpp
+        src/Game/Input/Input.h
+        src/Game/Input/InputKey.h
+        src/Game/Input/KeyState.h
+        src/Game/GameObject.cpp
+        src/Game/GameObject.h
+        src/Game/Camera/Camera.cpp
+        src/Game/Camera/Camera.h
+        src/Game/Screen/Screen.cpp
+        src/Game/Screen/Screen.h
+        src/Game/Scene/Scene.cpp
+        src/Game/Scene/Scene.h
+        src/Game/Texture/Texture2D.cpp
+        src/Game/Texture/Texture2D.h
+        src/Game/Texture/TextureFiltration.h
+        src/Game/Texture/TextureWrap.h
 )
 
 target_link_libraries(Drone_Game ${LIBS})

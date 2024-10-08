@@ -359,7 +359,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 // ---------------------------------------------------------------------------
-/** @brief Set the size of the post-transform vertex cache to optimize the
+/** @brief Set the size of the post-model vertex cache to optimize the
  *    vertices for. This configures the #aiProcess_ImproveCacheLocality step.
  *
  * The size is given in vertices. Of course you can't know how the vertex

@@ -51,6 +51,8 @@ void Shader::createProgram(GLuint vertexShader, GLuint fragmentShader) {
         glGetProgramInfoLog(id, BUFSIZ, nullptr, infoLog);
         Error::fallWithMessage("SHADER_PROGRAM", infoLog);
     }
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 }
 
 void Shader::use() const {
@@ -95,4 +97,8 @@ void Shader::setVec3(const char *name, const glm::vec3 &value) const {
     setUniform(name, [&value](GLint location){
         glUniform3fv(location, 1, glm::value_ptr(value));
     });
+}
+
+void Shader::dispose() {
+    glDeleteProgram(id);
 }

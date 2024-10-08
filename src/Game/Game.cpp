@@ -1,11 +1,13 @@
 #include "Game.h"
 #include "../Error/Error.h"
-#include "../utils/utils.h"
 #include "Time.h"
+#include "Input/Input.h"
+#include "Screen/Screen.h"
+#include "../Debug/Debug.h"
 
-Game::Game(bool fullscreen, const char *title, const glm::vec3 &background)
+Game::Game(bool fullscreen, const char *title)
 : fullscreen(fullscreen), title{title} {
-    setBackgroundColor(background);
+
 }
 
 void Game::createWindow() {
@@ -15,19 +17,20 @@ void Game::createWindow() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     auto currentMonitor = glfwGetPrimaryMonitor();
     auto screen = glfwGetVideoMode(currentMonitor);
-    screenWidth = screen->width;
-    screenHeight = screen->height;
+    int screenWidth = screen->width;
+    int screenHeight = screen->height;
     auto targetMonitor = fullscreen ? currentMonitor : nullptr;
-    mainWindow = glfwCreateWindow(screenWidth, screenHeight, title, targetMonitor, nullptr);
-    if(!mainWindow) {
+    window = glfwCreateWindow(screenWidth, screenHeight, title, targetMonitor, nullptr);
+    if(!window) {
         Error::fallWithMessage("WINDOW", "FAILED_TO_CREATE");
     }
-    glfwMakeContextCurrent(mainWindow);
+    glfwMakeContextCurrent(window);
+    Screen::update(screenWidth, screenHeight, DEFAULT_BACKGROUND);
 }
 
-void Game::clearScreen() const {
-    glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-    glClear(GL_COLOR_BUFFER_BIT);
+void Game::setCallbacks() {
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
 }
 
 void Game::loadGLFunctions() {
@@ -36,25 +39,38 @@ void Game::loadGLFunctions() {
     }
 }
 
-void Game::setBackgroundColor(const glm::vec3 &background) {
-    clearColor = glm::vec4(rgb_to_normalized(background), 1.0f);
-}
-
 void Game::create() {
     createWindow();
     loadGLFunctions();
-}
-
-void Game::update() {
-    while(!glfwWindowShouldClose(mainWindow)) {
-        clearScreen();
-        Time::calculateDeltaTime();
-        //main loop
-        glfwSwapBuffers(mainWindow);
-        glfwPollEvents();
-    }
+    setCallbacks();
+    Input::initialize();
 }
 
 void Game::terminate() {
 
+}
+
+GLFWwindow *Game::getWindow() const {
+    return window;
+}
+
+void Game::update() {
+    while(!glfwWindowShouldClose(window)) {
+        Screen::clear();
+        Time::calculateDeltaTime();
+        processSystemInput();
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+}
+
+void Game::framebuffer_size_callback(UNUSED GLFWwindow *targetWindow, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
+void Game::processSystemInput() {
+    if(Input::getKeyDown(InputKey::KeyEsc)) {
+        glfwSetWindowShouldClose(window, true);
+    }
 }

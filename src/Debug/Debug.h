@@ -6,6 +6,7 @@
 class Debug {
 private:
     static std::ostream *debugStream;
+    static void logErrorRaw(const char *target, const char *description);
 public:
     static void initialize(std::ostream *targetDebugStream);
 
@@ -14,4 +15,5 @@ public:
         *debugStream << value << '\n';
     }
     static void logError(const char *target, const char *description);
+    static void logError(const char *target, const char *description, const char *object);
 };
