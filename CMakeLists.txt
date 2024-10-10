@@ -14,7 +14,6 @@ link_directories(${SOURCE_DIR})
 
 add_executable(Drone_Game
         src/main.cpp
-        src/ManagersSystem/IGameManager.h
         src/ManagersSystem/ResourceManager.h
         src/ManagersSystem/ResourceManager.cpp
         src/ManagersSystem/ShaderManager.h
@@ -29,8 +28,6 @@ add_executable(Drone_Game
         src/Game/Game.h
         src/utils/utils.cpp
         src/utils/utils.h
-        src/ManagersSystem/GameManager.cpp
-        src/ManagersSystem/GameManager.h
         src/Game/IUpdatable.h
         src/Game/Time.cpp
         src/Game/Time.h
@@ -54,6 +51,11 @@ add_executable(Drone_Game
         src/Game/Texture/Texture2D.h
         src/Game/Texture/TextureFiltration.h
         src/Game/Texture/TextureWrap.h
+        src/ManagersSystem/ManagerState.h
+        src/ManagersSystem/AbstractManager.cpp
+        src/ManagersSystem/AbstractManager.h
+        src/Application/Application.cpp
+        src/Application/Application.h
 )
 
 target_link_libraries(Drone_Game ${LIBS})
