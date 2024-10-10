@@ -4,8 +4,14 @@
 #include "../../ManagersSystem/Managers.h"
 
 Texture2D::Texture2D(const char *texturePath, TextureWrap wrapOption, TextureFiltration filtration) {
-    createTexture(wrapOption, filtration);
-    loadTexture(texturePath);
+    auto targetTexture = Managers::getResourceManager()->findTexture(texturePath);
+    if(targetTexture) {
+        *this = *targetTexture;
+    } else {
+        createTexture(wrapOption, filtration);
+        loadTexture(texturePath);
+        Managers::getResourceManager()->addTexture(texturePath, this);
+    }
 }
 
 void Texture2D::createTexture(TextureWrap wrapOption, TextureFiltration filtration) {
@@ -67,9 +73,9 @@ void Texture2D::loadTexture(const char *path) {
 
 void Texture2D::setUninitializedTexture() {
     glDeleteTextures(1, &textureID);
-    textureID = Managers::getResourceManager()->getDefaultTexture();
+    *this = *Managers::getResourceManager()->getDefaultTexture();
 }
 
-GLuint Texture2D::getTextureID() const {
-    return textureID;
+void Texture2D::dispose() {
+    glDeleteTextures(1, &textureID);
 }
