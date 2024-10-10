@@ -19,7 +19,7 @@ private:
     static int detectKeyState(InputKey key);
     static void updateStates(InputKey key);
 public:
-    static void initialize();
+    static void setFocus(GLFWwindow *target);
     NODISCARD static bool getKeyDown(InputKey key);
     NODISCARD static bool getKey(InputKey key);
     NODISCARD static bool getKeyUp(InputKey key);

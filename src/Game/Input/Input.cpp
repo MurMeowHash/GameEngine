@@ -1,5 +1,4 @@
 #include "Input.h"
-#include "../../ManagersSystem/Managers.h"
 
 std::array<int, KEY_COUNT> Input::keys;
 int Input::currentState;
@@ -11,8 +10,8 @@ GLfloat Input::xOffset;
 GLfloat Input::yOffset;
 bool Input::firstMove{true};
 
-void Input::initialize() {
-    currentWindow = Managers::getGameManager()->getCurrentGame()->getWindow();
+void Input::setFocus(GLFWwindow *target) {
+    currentWindow = target;
     keys.fill(GLFW_RELEASE);
 }
 
