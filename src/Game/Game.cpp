@@ -3,7 +3,11 @@
 #include "Time.h"
 #include "Input/Input.h"
 #include "Screen/Screen.h"
+#include "../ManagersSystem/Managers.h"
 #include "../Debug/Debug.h"
+#include <iostream>
+
+Game *Game::instance{nullptr};
 
 Game::Game(bool fullscreen, const char *title)
 : fullscreen(fullscreen), title{title} {
@@ -11,10 +15,6 @@ Game::Game(bool fullscreen, const char *title)
 }
 
 void Game::createWindow() {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     auto currentMonitor = glfwGetPrimaryMonitor();
     auto screen = glfwGetVideoMode(currentMonitor);
     int screenWidth = screen->width;
@@ -30,24 +30,6 @@ void Game::createWindow() {
 
 void Game::setCallbacks() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-}
-
-void Game::loadGLFunctions() {
-    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        Error::fallWithMessage("OPENGL_FUNCTIONS", "FAILED_TO_LOAD");
-    }
-}
-
-void Game::create() {
-    createWindow();
-    loadGLFunctions();
-    setCallbacks();
-    Input::initialize();
-}
-
-void Game::terminate() {
-
 }
 
 GLFWwindow *Game::getWindow() const {
@@ -73,4 +55,35 @@ void Game::processSystemInput() {
     if(Input::getKeyDown(InputKey::KeyEsc)) {
         glfwSetWindowShouldClose(window, true);
     }
+}
+
+void Game::loadGLFunctions() {
+    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        Error::fallWithMessage("OPENGL_FUNCTIONS", "FAILED_TO_LOAD");
+    }
+}
+
+Game *Game::getInstance(bool fullscreen, const char *title) {
+    if(instance == nullptr) {
+        instance = new Game{fullscreen, title};
+    }
+    return instance;
+}
+
+void Game::deleteInstance() {
+    if(instance != nullptr) {
+        delete instance;
+        instance = nullptr;
+    }
+}
+
+void Game::create() {
+    createWindow();
+    loadGLFunctions();
+    setCallbacks();
+    Input::setFocus(window);
+}
+
+void Game::dispose() {
+    glfwDestroyWindow(window);
 }
