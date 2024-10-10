@@ -1,32 +1,33 @@
 #include "Managers.h"
 #include "../Debug/Debug.h"
 
+bool Managers::managersInitialized{false};
+
 ShaderManager *Managers::shaderManager;
 ResourceManager *Managers::resourceManager;
-GameManager *Managers::gameManager;
-std::array<IGameManager *, 3> Managers::managers;
+std::array<AbstractManager *, 2> Managers::managers;
+std::array<IDisposable *, 2> Managers::disposableManagers;
 
 void Managers::initialize() {
     shaderManager = new ShaderManager;
     managers[0] = shaderManager;
+    disposableManagers[0] = shaderManager;
     resourceManager = new ResourceManager;
     managers[1] = resourceManager;
-    gameManager = new GameManager;
-    managers[2] = gameManager;
+    disposableManagers[1] = resourceManager;
 }
 
 void Managers::startManagers() {
     initialize();
-    for(IGameManager *manager : managers) {
+    managersInitialized = true;
+    GLuint countLoadedManagers{0};
+    for(AbstractManager *manager : managers) {
         manager->startUp();
+        if(manager->getState() == ManagerState::Started) {
+            countLoadedManagers++;
+        }
     }
-    Debug::log("Managers has started up");
-}
-
-void Managers::terminate() {
-    for(IGameManager *manager : managers) {
-        delete manager;
-    }
+    Debug::log(std::to_string(countLoadedManagers) + "/" + std::to_string(managers.size()) + " managers have started up");
 }
 
 ShaderManager *Managers::getShaderManager() {
@@ -37,6 +38,13 @@ ResourceManager *Managers::getResourceManager() {
     return resourceManager;
 }
 
-GameManager *Managers::getGameManager() {
-    return gameManager;
+void Managers::shut() {
+    if(!managersInitialized) {
+        Debug::logError("MANAGERS", "UNABLE_TO_SHUT");
+        return;
+    }
+    for(IDisposable *&manager : disposableManagers) {
+        manager->dispose();
+        delete manager;
+    }
 }

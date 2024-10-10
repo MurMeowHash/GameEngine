@@ -1,11 +1,13 @@
 #pragma once
 
-#include "IGameManager.h"
+#include "AbstractManager.h"
 #include "../Shader/Shader.h"
 #include "../Shader/ShaderType.h"
 #include <unordered_map>
+#include "../Dispose/IDisposable.h"
+#include "ManagerState.h"
 
-class ShaderManager : public IGameManager {
+class ShaderManager : public AbstractManager, public IDisposable {
 private:
     std::pair<const char *, const char *> colorShaderPaths;
     std::pair<const char *, const char *> textureShaderPaths;
@@ -15,4 +17,5 @@ public:
     void startUp() override;
     void loadShader(ShaderType type);
     Shader getShader(ShaderType type) const;
+    void dispose() override;
 };

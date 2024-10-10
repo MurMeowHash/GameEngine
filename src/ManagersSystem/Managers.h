@@ -2,20 +2,19 @@
 
 #include "ShaderManager.h"
 #include "ResourceManager.h"
-#include "GameManager.h"
 #include <array>
 
 class Managers {
 private:
+    static bool managersInitialized;
     static ShaderManager *shaderManager;
     static ResourceManager *resourceManager;
-    static GameManager *gameManager;
-    static std::array<IGameManager *, 3> managers;
+    static std::array<AbstractManager *, 2> managers;
+    static std::array<IDisposable *, 2> disposableManagers;
     static void initialize();
 public:
     static ShaderManager *getShaderManager();
     static ResourceManager *getResourceManager();
-    static GameManager *getGameManager();
     static void startManagers();
-    static void terminate();
+    static void shut();
 };

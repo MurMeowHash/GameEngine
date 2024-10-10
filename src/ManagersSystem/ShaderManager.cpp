@@ -3,10 +3,11 @@
 #include "../Error/Error.h"
 
 void ShaderManager::startUp() {
-    Debug::log("Shader manager is starting...");
+    logManagerLoading("Shader");
     //TODO: initialize paths
     shaderPaths.emplace(ShaderType::ColorShader, colorShaderPaths);
     shaderPaths.emplace(ShaderType::TextureShader, textureShaderPaths);
+    state = ManagerState::Started;
 }
 
 void ShaderManager::loadShader(ShaderType type) {
@@ -29,4 +30,10 @@ Shader ShaderManager::getShader(ShaderType type) const {
         Error::fallWithMessage("SHADER", "DOES_NOT_EXIST");
     }
     return std::get<1>(*foundShader);
+}
+
+void ShaderManager::dispose() {
+    if(state == ManagerState::Shutdown) {
+        return;
+    }
 }
