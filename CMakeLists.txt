@@ -56,6 +56,24 @@ add_executable(Drone_Game
         src/ManagersSystem/AbstractManager.h
         src/Application/Application.cpp
         src/Application/Application.h
+        src/Game/Material/ShinyMaterial.cpp
+        src/Game/Material/ShinyMaterial.h
+        src/Game/Material/BasicMaterial.cpp
+        src/Game/Material/BasicMaterial.h
+        src/Game/Material/ColorMaterial.cpp
+        src/Game/Material/ColorMaterial.h
+        src/Game/Material/TextureMaterial.cpp
+        src/Game/Material/TextureMaterial.h
+        src/Game/Light/Light.cpp
+        src/Game/Light/Light.h
+        src/Game/Light/DirectionalLight.cpp
+        src/Game/Light/DirectionalLight.h
+        src/Game/Light/PointLight.cpp
+        src/Game/Light/PointLight.h
+        src/Game/Light/SpotLight.cpp
+        src/Game/Light/SpotLight.h
+        src/Game/Material/LightMaterial.cpp
+        src/Game/Material/LightMaterial.h
 )
 
 target_link_libraries(Drone_Game ${LIBS})
