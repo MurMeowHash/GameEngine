@@ -21,15 +21,12 @@ void ShaderManager::loadShader(ShaderType type) {
         return;
     }
     auto targetPaths = pathsElement->second;
-    shaders.emplace(type, Shader(targetPaths.first, targetPaths.second));
+    shaders.emplace(type, new Shader(targetPaths.first, targetPaths.second));
 }
 
-Shader ShaderManager::getShader(ShaderType type) const {
+Shader *ShaderManager::getShader(ShaderType type) const {
     auto foundShader = shaders.find(type);
-    if(foundShader == shaders.end()) {
-        Error::fallWithMessage("SHADER", "DOES_NOT_EXIST");
-    }
-    return std::get<1>(*foundShader);
+    return foundShader == shaders.end() ? nullptr : std::get<1>(*foundShader);
 }
 
 void ShaderManager::dispose() {
