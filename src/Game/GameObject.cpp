@@ -49,6 +49,7 @@ void GameObject::updateTransform() {
     model = glm::rotate(model, glm::radians(rotation.y), Y_AXIS);
     model = glm::rotate(model, glm::radians(rotation.z), Z_AXIS);
     model = glm::scale(model, scale);
+    rotationOperand = glm::mat3(model);
 }
 
 glm::mat4 GameObject::getModelTransform() const {

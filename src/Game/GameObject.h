@@ -8,16 +8,17 @@
 
 class GameObject : public IUpdatable {
 private:
-    static constexpr glm::vec3 X_AXIS{1.0f, 0.0f, 0.0f};
-    static constexpr glm::vec3 Y_AXIS{0.0f, 1.0f, 0.0f};
-    static constexpr glm::vec3 Z_AXIS{0.0f, 0.0f, 1.0f};
     glm::mat4 model;
     GameObject *parent;
     std::vector<GameObject *> children;
 protected:
+    static constexpr glm::vec3 X_AXIS{1.0f, 0.0f, 0.0f};
+    static constexpr glm::vec3 Y_AXIS{0.0f, 1.0f, 0.0f};
+    static constexpr glm::vec3 Z_AXIS{0.0f, 0.0f, 1.0f};
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
+    glm::mat3 rotationOperand;
     virtual void updateTransform();
 public:
     static constexpr glm::vec3 DEFAULT_POS{0.0f};
