@@ -3,9 +3,6 @@
 #include "Time.h"
 #include "Input/Input.h"
 #include "Screen/Screen.h"
-#include "../ManagersSystem/Managers.h"
-#include "../Debug/Debug.h"
-#include <iostream>
 
 Game *Game::instance{nullptr};
 
