@@ -2,5 +2,6 @@
 
 enum class ManagerState {
     Started,
+    Incomplete,
     Shutdown
 };
