@@ -1,5 +1,6 @@
 #include "Managers.h"
 #include "../Debug/Debug.h"
+#include "../Error/Error.h"
 
 bool Managers::managersInitialized{false};
 
@@ -28,6 +29,9 @@ void Managers::startManagers() {
         }
     }
     Debug::log(std::to_string(countLoadedManagers) + "/" + std::to_string(managers.size()) + " managers have started up");
+    if(countLoadedManagers != managers.size()) {
+        Error::fallWithMessage("MANAGERS", "SOME_MANAGERS_FAILED_TO_START");
+    }
 }
 
 ShaderManager *Managers::getShaderManager() {
