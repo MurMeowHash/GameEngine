@@ -79,3 +79,7 @@ void Texture2D::setUninitializedTexture() {
 void Texture2D::dispose() {
     glDeleteTextures(1, &textureID);
 }
+
+void Texture2D::bind() const {
+    glBindTexture(GL_TEXTURE_2D, textureID);
+}

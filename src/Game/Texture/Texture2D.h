@@ -18,5 +18,6 @@ private:
 public:
     explicit Texture2D(const char *texturePath, TextureWrap wrapOption = DEFAULT_TEXTURE_WRAP,
                        TextureFiltration filtration = DEFAULT_TEXTURE_FILTRATION);
+    void bind() const;
     void dispose() override;
 };
