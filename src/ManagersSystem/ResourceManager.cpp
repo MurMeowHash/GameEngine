@@ -32,8 +32,15 @@ Texture2D *ResourceManager::findTexture(const char *path) {
     return targetTexture == loadedTextures.end() ? nullptr : targetTexture->second;
 }
 
-void ResourceManager::addTexture(const char *path, Texture2D *texture) {
-    loadedTextures.emplace(path, texture);
+void ResourceManager::addTexture(Texture2D *texture) {
+    if(texture == nullptr) {
+        Debug::logError("TEXTURE", "CAN_NOT_BE_NULL");
+        return;
+    }
+    auto targetTexture = loadedTextures.emplace(texture->getPath(), texture);
+    if(!targetTexture.second) {
+        Debug::logError("TEXTURE", "SUCH_TEXTURE_ALREADY_EXISTS", texture->getPath());
+    }
 }
 
 void ResourceManager::dispose() {

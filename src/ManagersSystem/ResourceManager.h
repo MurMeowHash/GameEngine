@@ -19,6 +19,6 @@ public:
     Texture2D *getDefaultTexture() const;
     ColorMaterial *getDefaultMaterial() const;
     Texture2D *findTexture(const char *path);
-    void addTexture(const char *path, Texture2D *texture);
+    void addTexture(Texture2D *texture);
     void dispose() override;
 };
