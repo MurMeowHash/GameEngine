@@ -26,3 +26,7 @@ bool ShinyMaterial::apply() {
     }
     return false;
 }
+
+GLfloat ShinyMaterial::shininessToNormalized(GLfloat targetShininess) {
+    return glm::clamp(targetShininess / SHININESS_COEFFICIENT, MIN_SHININESS, MAX_SHININESS);
+}

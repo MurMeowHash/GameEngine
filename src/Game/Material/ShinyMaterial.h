@@ -21,4 +21,5 @@ public:
     void setShininess(GLfloat targetShininess);
     void setEmission(const glm::vec3 &targetEmission);
     bool apply() override;
+    static GLfloat shininessToNormalized(GLfloat targetShininess);
 };
