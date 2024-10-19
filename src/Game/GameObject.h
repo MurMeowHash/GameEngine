@@ -11,6 +11,7 @@ private:
     glm::mat4 model;
     GameObject *parent;
     std::vector<GameObject *> children;
+    void setParent(GameObject *targetParent);
 protected:
     static constexpr glm::vec3 X_AXIS{1.0f, 0.0f, 0.0f};
     static constexpr glm::vec3 Y_AXIS{0.0f, 1.0f, 0.0f};
@@ -29,8 +30,8 @@ public:
     void setPos(const glm::vec3 &pos);
     void setRot(const glm::vec3 &rot);
     void setScale(const glm::vec3 &scaleFactor);
-    void setParent(GameObject *targetParent);
     NODISCARD glm::vec3 getPos() const;
+    NODISCARD glm::vec3 getGlobalPos() const;
     NODISCARD glm::vec3 getRot() const;
     NODISCARD glm::vec3 getScale() const;
     void addChild(GameObject *child);

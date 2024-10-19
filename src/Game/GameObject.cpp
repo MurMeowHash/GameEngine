@@ -26,6 +26,10 @@ glm::vec3 GameObject::getPos() const {
     return position;
 }
 
+glm::vec3 GameObject::getGlobalPos() const {
+    return glm::vec4(0.0f, 0.0f, 0.0f, 1.0f) * model;
+}
+
 glm::vec3 GameObject::getRot() const {
     return rotation;
 }
