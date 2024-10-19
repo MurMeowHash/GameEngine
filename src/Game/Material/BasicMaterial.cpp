@@ -21,7 +21,6 @@ bool BasicMaterial::good() const {
 
 bool BasicMaterial::apply() {
     if(shader) {
-        shader->use();
         return true;
     } else {
         Managers::getResourceManager()->getDefaultMaterial()->apply();
@@ -35,4 +34,8 @@ BasicMaterial::operator bool() const {
 
 bool BasicMaterial::operator!() const {
     return !good();
+}
+
+Shader *BasicMaterial::getShader() const {
+    return shader;
 }

@@ -12,6 +12,7 @@ protected:
     Shader *shader;
 public:
     BasicMaterial(ShaderType type, const char *shaderName);
+    NODISCARD Shader* getShader() const;
     NODISCARD bool good() const;
     virtual bool apply() = 0;
     virtual ~BasicMaterial() = default;
