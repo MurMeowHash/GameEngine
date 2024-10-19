@@ -6,7 +6,8 @@ bool Managers::managersInitialized{false};
 
 ShaderManager *Managers::shaderManager;
 ResourceManager *Managers::resourceManager;
-std::array<AbstractManager *, 2> Managers::managers;
+SceneManager *Managers::sceneManager;
+std::array<AbstractManager *, 3> Managers::managers;
 std::array<IDisposable *, 2> Managers::disposableManagers;
 
 void Managers::initialize() {
@@ -16,6 +17,8 @@ void Managers::initialize() {
     resourceManager = new ResourceManager;
     managers[1] = resourceManager;
     disposableManagers[1] = resourceManager;
+    sceneManager = new SceneManager;
+    managers[2] = sceneManager;
 }
 
 void Managers::startManagers() {
@@ -42,13 +45,19 @@ ResourceManager *Managers::getResourceManager() {
     return resourceManager;
 }
 
+SceneManager *Managers::getSceneManager() {
+    return sceneManager;
+}
+
 void Managers::shut() {
     if(!managersInitialized) {
         Debug::logError("MANAGERS", "UNABLE_TO_SHUT");
         return;
     }
-    for(IDisposable *&manager : disposableManagers) {
+    for(IDisposable *manager : disposableManagers) {
         manager->dispose();
+    }
+    for(AbstractManager *manager : managers) {
         delete manager;
     }
 }
