@@ -1,17 +1,20 @@
 #include "PointLight.h"
 
-PointLight::PointLight(GLfloat radius, const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular,
-                       const glm::vec3 &position, const glm::vec3 &rotation) : Light("pointLight", currentIndex,
-                                                                                     ambient, diffuse, specular, position,
-                                                                                     rotation) {
+PointLight::PointLight(std::string lightName, GLuint &index, GLfloat radius, const glm::vec3 &ambient,
+                       const glm::vec3 &diffuse, const glm::vec3 &specular, const glm::vec3 &position,
+                       const glm::vec3 &rotation)
+                       : Light(std::move(lightName), index, ambient, diffuse, specular, position, rotation)  {
     setRadius(radius);
 }
 
+PointLight::PointLight(GLfloat radius, const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular,
+                       const glm::vec3 &position, const glm::vec3 &rotation)
+                       : PointLight("pointLights", currentIndex, radius, ambient, diffuse, specular, position, rotation) {
+
+}
+
 void PointLight::setRadius(GLfloat targetRadius) {
-    if(targetRadius < MIN_RADIUS || targetRadius > MAX_RADIUS) {
-        return;
-    }
-    radius = targetRadius;
+    radius = glm::clamp(targetRadius, MIN_RADIUS, MAX_RADIUS);
 }
 
 void PointLight::updateTransform() {
