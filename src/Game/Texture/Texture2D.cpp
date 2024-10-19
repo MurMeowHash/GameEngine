@@ -10,7 +10,7 @@ Texture2D::Texture2D(const char *texturePath, TextureWrap wrapOption, TextureFil
     } else {
         createTexture(wrapOption, filtration);
         loadTexture(texturePath);
-        Managers::getResourceManager()->addTexture(texturePath, this);
+        Managers::getResourceManager()->addTexture(this);
     }
 }
 
@@ -40,14 +40,15 @@ void Texture2D::createTexture(TextureWrap wrapOption, TextureFiltration filtrati
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magParam);
 }
 
-void Texture2D::loadTexture(const char *path) {
+void Texture2D::loadTexture(const char *texturePath) {
     GLint numChannels;
-    unsigned char *data = stbi_load(path, &width, &height, &numChannels, 0);
+    unsigned char *data = stbi_load(texturePath, &width, &height, &numChannels, 0);
     if(!data) {
-        Debug::logError("TEXTURE", "INVALID_TEXTURE_PATH", path);
+        Debug::logError("TEXTURE", "INVALID_TEXTURE_PATH", texturePath);
         setUninitializedTexture();
         return;
     }
+    path = texturePath;
     GLint format;
     switch (numChannels) {
         case 1:
@@ -63,7 +64,7 @@ void Texture2D::loadTexture(const char *path) {
             format = GL_RGBA;
             break;
         default:
-            Debug::logError("TEXTURE", "UNKNOWN_FORMAT", path);
+            Debug::logError("TEXTURE", "UNKNOWN_FORMAT", texturePath);
             format = GL_RGB;
     }
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -73,7 +74,7 @@ void Texture2D::loadTexture(const char *path) {
 
 void Texture2D::setUninitializedTexture() {
     glDeleteTextures(1, &textureID);
-    *this = *Managers::getResourceManager()->getDefaultTexture();
+    *this = *Managers::getResourceManager()->getDefaultTexture(); // TODO: potential null
 }
 
 void Texture2D::dispose() {
@@ -82,4 +83,8 @@ void Texture2D::dispose() {
 
 void Texture2D::bind() const {
     glBindTexture(GL_TEXTURE_2D, textureID);
+}
+
+const char *Texture2D::getPath() const {
+    return path;
 }

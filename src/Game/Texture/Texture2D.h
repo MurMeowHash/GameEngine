@@ -12,12 +12,14 @@ private:
     GLuint textureID;
     GLint width;
     GLint height;
+    const char *path;
     void createTexture(TextureWrap wrapOption, TextureFiltration filtration);
-    void loadTexture(const char *path);
+    void loadTexture(const char *texturePath);
     void setUninitializedTexture();
 public:
     explicit Texture2D(const char *texturePath, TextureWrap wrapOption = DEFAULT_TEXTURE_WRAP,
                        TextureFiltration filtration = DEFAULT_TEXTURE_FILTRATION);
+    NODISCARD const char *getPath() const;
     void bind() const;
     void dispose() override;
 };
