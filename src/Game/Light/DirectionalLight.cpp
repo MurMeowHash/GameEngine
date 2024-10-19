@@ -4,7 +4,7 @@ GLuint DirectionalLight::currentIndex{0};
 
 DirectionalLight::DirectionalLight(const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular,
                                    const glm::vec3 &position, const glm::vec3 &rotation)
-                                   : Light("directionalLight", currentIndex, ambient, diffuse, specular,
+                                   : Light("directionalLights", currentIndex, ambient, diffuse, specular,
                                            position, rotation) {
 
 }
